@@ -1,14 +1,14 @@
 [
   {
     "modid": "${modid}",
-    "name": "Xample Mod",
-    "description": "A mod that is used as an example.",
+    "name": "Flippy",
+    "description": "Skyblock tool to help bazaar/ah flip",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "https://github.com/romangraef/Forge1.8.9Template/",
+    "url": "https://https://github.com/etnad101/flippy/",
     "updateUrl": "",
     "authorList": [
-      "You"
+      "etnad101"
     ],
     "credits": "",
     "logoFile": "",
