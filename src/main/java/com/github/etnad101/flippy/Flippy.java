@@ -2,7 +2,7 @@ package com.github.etnad101.flippy;
 
 import com.github.etnad101.flippy.commands.MenuCommand;
 import com.github.etnad101.flippy.utils.Bazaar;
-import com.github.etnad101.flippy.utils.RequestHandler;
+import com.github.etnad101.flippy.utils.JsonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -31,7 +31,7 @@ public class Flippy {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         try {
-            bazaar = RequestHandler.get();
+            bazaar = JsonHandler.getBazzar();
         } catch (IOException e) {
             System.out.println(e);
         }

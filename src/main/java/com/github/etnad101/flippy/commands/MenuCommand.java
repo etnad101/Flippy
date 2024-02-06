@@ -2,13 +2,15 @@ package com.github.etnad101.flippy.commands;
 
 import com.github.etnad101.flippy.Flippy;
 import com.github.etnad101.flippy.MenuGui;
+import com.github.etnad101.flippy.utils.JsonHandler;
 import com.github.etnad101.flippy.utils.Product;
-import com.github.etnad101.flippy.utils.RequestHandler;
+import com.github.etnad101.flippy.utils.Recipes;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +32,7 @@ public class MenuCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         try {
-            Flippy.bazaar = RequestHandler.get();
+            Flippy.bazaar = JsonHandler.getBazzar();
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -54,21 +56,31 @@ public class MenuCommand extends CommandBase {
             sender.addChatMessage(new ChatComponentText("§c'amount' must be a number"));
         }
 
+        float profit;
         switch (type) {
             case "normal":
                 Product prod = Flippy.bazaar.products.get(id);
-                float profit = prod.calculateProfit(amount);
-                String color;
-                if (profit > 0) {
-                    color = "§6";
-                } else {
-                    color = "§c";
-                }
-                sender.addChatMessage(new ChatComponentText("Total Profit -> $" + color + profit));
+                profit = prod.calculateProfit(amount);
+                sendProfit(sender, profit);
                 break;
+
             case "craft":
-                sender.addChatMessage(new ChatComponentText("§cNot yet implemented"));
+                try {
+                    Recipes recipes = JsonHandler.getRecipes();
+                    try {
+                        profit = recipes.calculateProfit(sender, id, amount);
+                    } catch (NullPointerException e) {
+                        sender.addChatMessage(new ChatComponentText("§cThis item either cannot be crafted, or the recipe hasn't been implemented yet"));
+                        break;
+                    }
+                    sendProfit(sender, profit);
+                } catch (IOException e) {
+                    sender.addChatMessage(new ChatComponentText("§c" + e));
+                    System.out.println(e);
+                    break;
+                }
                 break;
+
             default:
                 sender.addChatMessage(new ChatComponentText("§cInvalid type - Must be 'normal' or 'craft'"));
         }
@@ -91,5 +103,15 @@ public class MenuCommand extends CommandBase {
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
         return true;
+    }
+
+    private void sendProfit(ICommandSender sender, float profit) {
+        String color;
+        if (profit > 0) {
+            color = "§6";
+        } else {
+            color = "§c";
+        }
+        sender.addChatMessage(new ChatComponentText("Total Profit -> $" + color + profit));
     }
 }

@@ -1,0 +1,22 @@
+{
+  "recipes": {
+    "GOLDEN_TOOTH": {
+      "ingredients": [
+        "WOLF_TOOTH",
+        "ENCHANTED_GOLD"
+      ],
+      "quantities": [
+        128,
+        32
+      ]
+    },
+    "ENCHANTED_GOLD": {
+      "ingredients": [
+        "GOLD_INGOT"
+      ],
+      "quantities": [
+        160
+      ]
+    }
+  }
+}

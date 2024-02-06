@@ -1,17 +1,15 @@
 package com.github.etnad101.flippy;
 
 import com.github.etnad101.flippy.utils.Bazaar;
+import com.github.etnad101.flippy.utils.JsonHandler;
 import com.github.etnad101.flippy.utils.Product;
-import com.github.etnad101.flippy.utils.RequestHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.Sys;
 
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -52,9 +50,9 @@ public class MenuGui extends GuiScreen {
     @Override
     public void actionPerformed(GuiButton button) throws IOException {
         if (button.id == REFRESH) {
-            RequestHandler rh = new RequestHandler();
+            JsonHandler rh = new JsonHandler();
             try {
-                Bazaar b = rh.get();
+                Bazaar b = rh.getBazzar();
                 System.out.println(b.lastUpdated);
                 Flippy.bazaar = b;
             } catch (IOException e) {
