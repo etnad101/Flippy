@@ -16,8 +16,8 @@ public class Recipes {
     }
 
     public float calculateProfit(ICommandSender sender, String itemId, int amount) throws NullPointerException{
-        float totalCost = recipes.get(itemId).totalCost(sender);
-        float sellValue = Flippy.bazaar.products.get(itemId).quick_status.buyPrice;
-        return (sellValue - totalCost) * amount;
+        float totalCost = recipes.get(itemId).totalCost(sender, amount);
+        float sellValue = Flippy.bazaar.products.get(itemId).quick_status.buyPrice * amount;
+        return (sellValue - totalCost);
     }
 }
